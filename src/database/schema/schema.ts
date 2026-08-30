@@ -1,4 +1,4 @@
-import { integer, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -9,7 +9,11 @@ export const users = pgTable("users", {
     job: varchar("job", { length: 255 }),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
-})
+}, (table) => [
+    index("name_idx").on(table.name),
+    index("job_idx").on(table.job),
+    uniqueIndex("email_idx").on(table.email)
+])
 
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
