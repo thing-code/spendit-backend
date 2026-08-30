@@ -1,8 +1,12 @@
 import { Elysia } from "elysia";
 
 const app = new Elysia()
-  .get("/", () => "Hello Elysia")
-  .get("/pompom", ({ status }) => status(200, "Pam param param pam"))
+  .get("/", () => {
+    return {
+      name: "spendit",
+      version: "1.0.0"
+    }
+  })
   .listen(3000);
 
 console.log(
